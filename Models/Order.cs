@@ -8,5 +8,6 @@
         public string Status { get; set; } = "pending";
         public decimal Total_Amount { get; set; }
         public Delivery delivery { get; set; }
+        public Payment payment { get; set; }
     }
 }

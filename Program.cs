@@ -22,6 +22,8 @@ namespace Orders_Managment_System
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IDerliveryRepo, DeliveryRepositry>();
             builder.Services.AddScoped<IDeliveryService, DeliveryService>();
+            builder.Services.AddScoped<IPaymentRepositry, PaymentRepositry>();
+            builder.Services.AddScoped<IPaymentService, PaymentService>();
             builder.Services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
