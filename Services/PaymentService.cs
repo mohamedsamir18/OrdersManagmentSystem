@@ -1,4 +1,5 @@
-﻿using Orders_Managment_System.Interfaces;
+﻿using Orders_Managment_System.Dtos;
+using Orders_Managment_System.Interfaces;
 using Orders_Managment_System.Models;
 
 namespace Orders_Managment_System.Services
@@ -15,16 +16,14 @@ namespace Orders_Managment_System.Services
         }
         public async Task ProcessPaymentAsync(int orderId, decimal amount)
         {
-            var payment = new Payment()
+            var payment = new PaymentDto()
             {
-                OrderId = orderId,
                 Amount = amount,
-                Status = "pending",
+                Status = "Completed",
                 CreatedAt = DateTime.Now
             };
            await _repositry.CreatePaymentAsync(payment);
-            payment.Status = "completed";
-            await _repositry.UpdatePaymentStatusAsync(payment.Id,payment.Status);
+            
             
         }
 

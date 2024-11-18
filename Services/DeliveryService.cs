@@ -1,4 +1,5 @@
-﻿using Orders_Managment_System.Interfaces;
+﻿using Orders_Managment_System.Dtos;
+using Orders_Managment_System.Interfaces;
 using Orders_Managment_System.Models;
 
 namespace Orders_Managment_System.Services
@@ -13,7 +14,7 @@ namespace Orders_Managment_System.Services
             _derlivery = derlivery;
            _order = order;
         }
-        public async Task<Delivery> CreateDeliveryAsync(int orderid)
+        public async Task<DeliveryDto> CreateDeliveryAsync(int orderid)
         {
             var order = await _order.GetOrderByIdAsync(orderid);
             if (order == null)
@@ -24,7 +25,7 @@ namespace Orders_Managment_System.Services
             }
             else
             {
-                var delivery = new Delivery
+                var delivery = new DeliveryDto
                 {
                     OrderId = orderid,
                     shipingdate = DateTime.UtcNow,
@@ -34,7 +35,6 @@ namespace Orders_Managment_System.Services
                 await _derlivery.CreateDeliveryAsync(delivery);
 
                 order.Status = "shipped";
-                order.delivery = delivery;
                 await _order.UpdateOrderAsync(order);
                
                 return delivery;
@@ -56,6 +56,11 @@ namespace Orders_Managment_System.Services
             }
 
             await _derlivery.UpdateDeliveryStatusAsync(deliveryid, status);
+        }
+
+        Task<DeliveryDto> IDeliveryService.GetDeliveryByOrderIdAsync(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

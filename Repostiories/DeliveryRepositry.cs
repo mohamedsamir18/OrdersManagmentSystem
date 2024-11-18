@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
+using Orders_Managment_System.Dtos;
 using Orders_Managment_System.Interfaces;
 using Orders_Managment_System.Models;
 
@@ -13,10 +14,18 @@ namespace Orders_Managment_System.Repostiories
         {
             _context = context;
         }
-        public async Task CreateDeliveryAsync(Delivery delivery)
+        public async Task CreateDeliveryAsync(DeliveryDto deliverydto)
         {
+            var newdelivery = new Delivery()
+            {
+                OrderId = deliverydto.OrderId,
+                shipingdate = deliverydto.shipingdate,
+                deliverydate = deliverydto.deliverydate,
+                status = deliverydto.status
+
+            };
             
-                await _context.deliveries.AddAsync(delivery);
+                await _context.deliveries.AddAsync(newdelivery);
                 await _context.SaveChangesAsync();
             
 

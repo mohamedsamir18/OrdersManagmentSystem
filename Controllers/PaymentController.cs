@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orders_Managment_System.Interfaces;
 
@@ -16,6 +17,7 @@ namespace Orders_Managment_System.Controllers
         }
         [HttpPost]
         [Route("{orderid}/pay")]
+        [Authorize(Roles ="enduser")]
         public async Task<IActionResult> ProcessPayment(int orderid, [FromBody] decimal amount)
         {
            await _payment.ProcessPaymentAsync(orderid, amount);

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Orders_Managment_System.Dtos;
@@ -19,6 +20,7 @@ namespace Orders_Managment_System.Controllers
         }
         [HttpGet]
         [Route("")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> GetOrders()
         {
             var result = await _orderService.GetAllOrdersAsync();
@@ -27,6 +29,7 @@ namespace Orders_Managment_System.Controllers
 
         [HttpGet]
         [Route("{id}")]
+        [Authorize(Roles ="Admin")]
         public async Task<ActionResult> GetOrderByID(int id)
         {
             var result = await _orderService.GetOrderByIdAsync(id);
@@ -39,6 +42,7 @@ namespace Orders_Managment_System.Controllers
 
         [HttpPost]
         [Route("")]
+        [Authorize(Roles ="enduser")]
         public async Task<ActionResult<Order>> CreateOrder(OrderDto orderDto)
         {
             await _orderService.CreateOrderAsync(orderDto);
@@ -48,6 +52,7 @@ namespace Orders_Managment_System.Controllers
 
         [HttpPut]
         [Route("{id}")]
+        [Authorize(Roles = "enduser")]
         public async Task<IActionResult> UpdateOrder(int id , OrderDto orderDto)
         {
 
@@ -59,6 +64,7 @@ namespace Orders_Managment_System.Controllers
 
         [HttpDelete]
         [Route("{id}")]
+        [Authorize(Roles = "enduser")]
         public async Task<ActionResult<Order>> DeleteOrder(int id)
         {
             await _orderService.DeleteOrderAsync(id);

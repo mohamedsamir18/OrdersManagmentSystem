@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
+using Orders_Managment_System.Dtos;
 using Orders_Managment_System.Interfaces;
 using Orders_Managment_System.Models;
 
@@ -13,9 +14,15 @@ namespace Orders_Managment_System.Repostiories
         {
             _context = context;
         }
-        public async Task CreatePaymentAsync(Payment payment)
+        public async Task CreatePaymentAsync(PaymentDto paymentdto)
         {
-            await _context.payments.AddAsync(payment);
+            var newpayment = new Payment()
+            {
+                Amount = paymentdto.Amount,
+                Status = paymentdto.Status,
+                CreatedAt = paymentdto.CreatedAt
+            };
+            await _context.payments.AddAsync(newpayment);
             await _context.SaveChangesAsync();
         }
 

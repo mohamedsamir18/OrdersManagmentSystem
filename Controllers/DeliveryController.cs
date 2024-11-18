@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orders_Managment_System.Interfaces;
 using Orders_Managment_System.Models;
@@ -18,6 +19,7 @@ namespace Orders_Managment_System.Controllers
 
         [HttpPost]
         [Route("{orderid}")]
+        [Authorize(Roles ="Admin")]
         public async Task<ActionResult> CreateDelivery(int orderid)
         {
             var result = await _deliveryService.CreateDeliveryAsync(orderid);
@@ -28,6 +30,7 @@ namespace Orders_Managment_System.Controllers
 
         [HttpGet]
         [Route("{orderid}")]
+        [Authorize(Roles = "enduser")]
         public async Task<ActionResult<Delivery>> GetDeliverybyidAsync(int orderid) 
         {
             var result = await _deliveryService.GetDeliveryByOrderIdAsync(orderid);
@@ -40,6 +43,7 @@ namespace Orders_Managment_System.Controllers
 
         [HttpPatch]
         [Route("{deliveryid}/status")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> UpdateDeliveryStatus(int deliveryid, [FromQuery] string status)
         {
             await _deliveryService.UpdateDeliveryStatusAsync(deliveryid, status);
